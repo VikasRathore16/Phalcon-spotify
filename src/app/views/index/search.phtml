@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body class="container text-light mt-4" style="background-color:#121212">
+    <div class="row">
+        <div class="col-4">
+            <div class="row h3">
+                Top Result
+            </div>
+            <div class="row border rounded p-2 m-auto">
+                <div class="col-12 mt-2">
+                    <img src="<?php echo $top_result['album']['images'][1]['url'] ?>">
+                </div>
+                <div class="col-12 h5 text-bold mt-2">
+                    <?php echo $top_result['name'] ?>
+                </div>
+                <div class="col-12 mt-2 my-2">
+                    <?php echo $top_result['artists'][1]['name'] ?> <span class="mx-4 p-2" style="background-color:black;">Songs</span>
+                </div>
+            </div>
+            <div class="col h4 mt-4 p-3 border rounded">
+                <div class="col-12 mt-3">
+                    <?php echo $this->tag->linkTo('index/createPlaylist','Create Playlist'); ?>
+                </div>
+                <div class="col-12 mt-3">
+                <?php echo $this->tag->linkTo('index/likedSongs','Liked Songs'); ?>  
+                </div>
+                <div class="col-12 mt-3">
+                <?php echo $this->tag->linkTo('index/yourLibrary','Your Library'); ?>  
+                </div>
+                <div class="col-12 mt-3">
+                <?php echo $this->tag->linkTo('index/yourPlaylist','Your Playlist'); ?>   
+                </div>
+            </div>
+        </div>
+        <div class="col-1"></div>
+        <div class="col-6">
+            <div class="row h3">Songs</div>
+            <div class="row border rounded p-2">
+                <div class="col-12 p-1">
+                    <?php foreach ($result->tracks['items'] as $track) { ?>
+                        <div class="row mt-3">
+                            <div class="col-2"><img src="<?php echo $track['album']['images'][2]['url'] ?>"></div>
+                            <div class="col-4 m-auto"><?php echo $track['name'] ?></div>
+                            <div class="col-3 m-auto"><?php echo $track['album']['artists'][0]['name'] ?></div>
+                            <div class="col-2 m-auto"><?php
+                                                        $input = $track['duration_ms'];
+
+                                                        $uSec = $input % 1000;
+                                                        $input = floor($input / 1000);
+
+                                                        $seconds = $input % 60;
+                                                        $input = floor($input / 60);
+
+                                                        $minutes = $input % 60;
+                                                        $input = floor($input / 60);
+
+                                                        $hour = $input;
+
+                                                        echo sprintf('%2d:%02d',  $minutes, $seconds);
+
+                                                        ?>&nbsp;
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#1DB954" class="bi bi-play-circle-fill" viewBox="0 0 16 16">
+                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814l-3.5-2.5z" />
+                                </svg>
+                            </div>
+
+                        </div>
+                    <?php } ?>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+
+</html>
+
+<?php
+echo "<pre>";
+// print_r($top_result);
+// echo "ads";
+echo "<pre>";
+
+// print_r($result->tracks['items']); 
+?>
