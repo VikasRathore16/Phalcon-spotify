@@ -1,0 +1,30 @@
+<?php
+header("Cache-Control: no cache");
+session_cache_limiter("private_no_expire");
+?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body class='container bg-dark'>
+
+    <!-- -------------------------------------------Form --------------------------------------->
+
+    <?php echo $this->tag->form(['', 'class' => 'my-4 container text-center  p-4 border']); ?>
+    <p class="row">
+        <label for="email" class='label col-3 mx-5 h4 text-bold text-light'>Playlist Name</label>
+        <?php echo $this->tag->textField(['playlist', 'class' => 'form-control col-4']) ?>
+        <?php echo $this->tag->submitButton(['Create', 'class' => 'btn  btn-primary mx-5']); ?>
+    </p>
+    <?php echo $this->tag->endForm(); ?>
+
+
+</body>
+
+</html>

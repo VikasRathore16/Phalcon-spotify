@@ -10,16 +10,14 @@ use Phalcon\Mvc\Application;
 use Phalcon\Url;
 use Phalcon\Config;
 use Phalcon\Config\ConfigFactory;
-
+use Phalcon\Session\Manager;
+use Phalcon\Session\Adapter\Stream;
 
 // Define some absolute path constants to aid in locating resources
 define('BASE_PATH', dirname(__DIR__));
 define('APP_PATH', BASE_PATH . '/app');
 
 require(APP_PATH . '/library/vendor/autoload.php');
-
-
-
 
 
 // Register an autoloader
@@ -64,7 +62,24 @@ $container->set(
         return $config;
     }
 );
+$container->set(
+    'session',
+    function () {
+        $session = new Manager();
+        $files = new Stream(
+            [
+                'savePath' => '/tmp',
+            ]
+        );
 
+        $session
+            ->setAdapter($files)
+            ->setName('user')
+            ->start();
+
+        return $session;
+    }
+);
 
 $application = new Application($container);
 

@@ -15,11 +15,15 @@ class IndexController extends Controller
 
     public function searchAction()
     {
+
         $query = $this->request->get('query');
-        $result = $this->find('/search?q=' . $query . '&type=track,artist');
+        $this->session->set('query', $query);
+        $result = $this->find('GET', '/search?q=' . $query . '&type=track,artist');
+        $myPlaylists = $this->find('GET', '/me/playlists');
         $top_result = $this->topResults($result->tracks['items']);
         $this->view->result = $result;
         $this->view->top_result = $top_result;
+        $this->view->myPlaylists = $myPlaylists;
         echo "<pre>";
         print_r($result);
         echo "</pre>";
@@ -28,7 +32,20 @@ class IndexController extends Controller
 
     public function createPlaylistAction()
     {
-        $result = $this->find("POST", '/users/312hyyvvs6hfnvahqxsrq223itvm/playlists');
+        // print_r($this->session);
+        // die();
+        if ($this->request->get('playlist')) {
+            $result = $this->find("POST", '/users/312hyyvvs6hfnvahqxsrq223itvm/playlists', $this->request->get('playlist'));
+            $this->response->redirect('index/search?query=' . $this->session->get('query') . '&type=track,artist');
+        }
+    }
+
+    public function likedSongsAction()
+    {
+        
+        echo "<pre>";
+        print_r($result);
+        echo "</pre>";
     }
 
     private function topResults($items)
@@ -43,27 +60,28 @@ class IndexController extends Controller
         return $top_result;
     }
 
-    public function find($method = "GET", $query = '', $slug = '', $format = '')
+    public function find($method, $query = '', $playlist = '')
     {
         $client = new \GuzzleHttp\Client();
         if ($method == 'GET') {
-            $response = $client->request('GET', $this->config->get('url')['base_url'] . $query . $slug . $format, [
+            $response = $client->request('GET', $this->config->get('url')['base_url'] . $query, [
                 'headers' => [
                     'Authorization' => "Bearer " . $this->config->get('app')['bearer_token'],
                 ]
             ]);
+            $response = (object)(json_decode($response->getBody(), true));
         }
-        if ($method = "POST") {
+        if ($method == "POST") {
             $response = $client->request(
                 'POST',
-                $this->config->get('url')['base_url'] . $query . $slug . $format,
+                $this->config->get('url')['base_url'] . $query,
                 [
                     'headers' => [
                         'Authorization' => "Bearer " . $this->config->get('app')['bearer_token'],
                     ],
                     'body' => json_encode(
                         [
-                            "name" => "New Playlist",
+                            "name" => $playlist,
                             "description" => "New playlist description",
                             "public" => false
                         ]
@@ -73,7 +91,7 @@ class IndexController extends Controller
         }
         // $response = $client->post($this->config->get('url')['base_url'] . $query . $slug . $format, ['data' => 
         // )]);
-        $response = (object)(json_decode($response->getBody(), true));
+
         return $response;
     }
 }
