@@ -1,6 +1,5 @@
 <?php
-// echo "<pre>";
-// print_r($myPlaylist);
+header("Cache-Control: no cache");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -54,7 +53,7 @@
 
                         ?></td>
                     <td>
-                        <?php echo $this->tag->form(['index/deleteFromPlaylist']); ?>
+                        <?php echo $this->tag->form(['playlist/deleteFromPlaylist']); ?>
 
                         <?php echo $this->tag->hiddenField([$myPlaylist->name, 'name' => 'myPlaylist', 'value' => $myPlaylist->id]); ?>
                         <?php echo $this->tag->hiddenField([$this->request->get('song'), 'name' => 'song', 'value' => $track['track']['uri']]); ?>

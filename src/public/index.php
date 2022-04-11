@@ -29,6 +29,12 @@ $loader->registerDirs(
         APP_PATH . "/models/",
     ]
 );
+$loader->registerNamespaces(
+    [
+        'App\Components' => APP_PATH . '/components',
+
+    ]
+);
 
 $loader->register();
 
@@ -79,6 +85,11 @@ $container->set(
 
         return $session;
     }
+);
+
+$container->set(
+    'Mycurl',
+    (new \App\Components\Mycurl())
 );
 
 $application = new Application($container);

@@ -2,7 +2,6 @@
 header("Cache-Control: no cache");
 session_cache_limiter("private_no_expire");
 
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -15,7 +14,7 @@ session_cache_limiter("private_no_expire");
 </head>
 
 <body class='container bg-dark'>
-
+    <?php echo $this->tag->linkTo(['login/index', 'Login', 'class' => 'btn btn-info mt-2']) ?>
     <!-- -------------------------------------------Form --------------------------------------->
 
     <?php echo $this->tag->form(['index/search', 'class' => 'my-4 container text-center  p-4 border']); ?>
@@ -28,7 +27,7 @@ session_cache_limiter("private_no_expire");
     <div class="form-check text-light">
         <input class="form-check-input" type="checkbox" value="track" id="track" name="track" checked>
         <label class="form-check-label" for="Album">
-           Track
+            Track
         </label>
     </div>
     <div class="form-check text-light">

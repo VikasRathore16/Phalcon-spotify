@@ -1,6 +1,5 @@
 <?php
 header("Cache-Control: no cache");
-// var_dump(isset($result->tracks));
 ?>
 
 <!DOCTYPE html>
@@ -28,20 +27,21 @@ header("Cache-Control: no cache");
                         <?php echo $top_result['name'] ?>
                     </div>
                     <div class="col-12 mt-2 my-2">
-                        <?php echo $top_result['artists'][1]['name'] ?> <span class="mx-4 p-2" style="background-color:black;">Songs</span>
+                        <?php
+                        if (isset($top_result['artists'][1]['name'])) {
+                            echo $top_result['artists'][1]['name'];
+                        } else {
+                            echo $top_result['artists'][0]['name'];
+                        }
+
+                        ?>
+                        <span class="mx-4 p-2" style="background-color:black;">Songs</span>
                     </div>
                 </div>
                 <div class="col h4 mt-4 p-3 border rounded">
                     <div class="col-12 mt-3">
-                        <?php echo $this->tag->linkTo('index/createPlaylist', 'Create Playlist'); ?>
+                        <?php echo $this->tag->linkTo('playlist/createPlaylist', 'Create Playlist'); ?>
                     </div>
-                    <div class="col-12 mt-3">
-                        <?php echo $this->tag->linkTo('index/likedSongs', 'Liked Songs'); ?>
-                    </div>
-                    <div class="col-12 mt-3">
-                        <?php echo $this->tag->linkTo('index/yourLibrary', 'Your Library'); ?>
-                    </div>
-
                 </div>
                 <div class="col h4 mt-4 p-3 border rounded">
                     <div class="col-12 mt-3">
@@ -49,10 +49,10 @@ header("Cache-Control: no cache");
                         <hr class="bg-light">
                     </div>
                     <?php foreach ($myPlaylists->items as $playlist) { ?>
-                        <?php echo $this->tag->form(['index/myPlaylist']); ?>
+                        <?php echo $this->tag->form(['playlist/myPlaylist']); ?>
                         <div class="col-12 mt-3">
                             <?php echo $this->tag->submitButton([$playlist['name'], 'class' => 'nav nav-link text-white border-0', 'style' => 'background-color:#121212']); ?>
-                            <?php echo $this->tag->hiddenField(['index/myPlaylist', $playlist['name'], 'name' => 'myPlaylist', 'value' => $playlist['id']]); ?>
+                            <?php echo $this->tag->hiddenField([$playlist['name'], 'name' => 'myPlaylist', 'value' => $playlist['id']]); ?>
                         </div>
                         <?php echo $this->tag->endForm(); ?>
                     <?php } ?>
@@ -90,7 +90,7 @@ header("Cache-Control: no cache");
                                     </svg>
                                 </div>
                                 <div class="col-1 mt-3">
-                                    <?php echo $this->tag->form(['index/addToPlaylist']); ?>
+                                    <?php echo $this->tag->form(['playlist/addToPlaylist']); ?>
                                     <?php echo $this->tag->submitButton(['ADD', 'class' => 'nav nav-link text-white border-0', 'style' => 'background-color:#121212']); ?>
                                     <?php echo $this->tag->hiddenField([$track['name'], 'name' => 'song', 'value' => $track['uri']]); ?>
                                     <?php echo $this->tag->endForm(); ?>
