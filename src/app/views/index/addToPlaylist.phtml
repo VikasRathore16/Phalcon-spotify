@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body class='container'>
+    My Playlists
+    <?php echo $this->tag->form(['']); ?>
+    <?php foreach ($myPlaylists->items as $playlist) { ?>
+        <div class="row">
+            <div class="col-6">
+                <?php echo $playlist['name'] ?>
+            </div>
+            <div class="col-6">
+                <?php echo $this->tag->hiddenField([$playlist['name'], 'name' => 'myPlaylist', 'value' => $playlist['id']]); ?>
+                <?php echo $this->tag->hiddenField([$this->request->get('song'), 'name' => 'song', 'value' => $this->request->get('song')]); ?>
+                <?php echo $this->tag->submitButton(['ADD', 'class' => 'nav nav-link text-white border-0', 'style' => 'background-color:#121212']); ?>
+            </div>
+        </div>
+       
+    <?php } ?>
+    <?php echo $this->tag->endForm(); ?>
+</body>
+
+</html>
