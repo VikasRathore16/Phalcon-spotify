@@ -50,8 +50,8 @@ class LoginController extends Controller
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $result = curl_exec($ch);
         $result = json_decode($result);
-        print_r($result);
-        $this->session->set('bearer', $result->access_token);
+        $this->session->set('bearer', 'BQAmAfQ-9iItwq0WkJPvjHyQO8RYne8dWAjUFDM5MpyrHNh8mfqGV3C3_EqTgS7Bi5dGKupyMnX5lJh_BEZMXq8lXLFHn-wtgmZ_qauY1gJkCD5hKV_yW2HB0WC7lxm1wKHJNqRyKWI44j5iUaI6mEzzb4A9qfJzArWaHOB-81LXZnvySs0nGYx2GdoReYH9q2eD9BLqB7qlQcrS');
+        $this->session->set('expires_time', $result->expires_in);
         $this->response->redirect('index');
     }
 }

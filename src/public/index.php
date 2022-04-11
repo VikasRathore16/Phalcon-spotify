@@ -12,6 +12,8 @@ use Phalcon\Config;
 use Phalcon\Config\ConfigFactory;
 use Phalcon\Session\Manager;
 use Phalcon\Session\Adapter\Stream;
+use Phalcon\Events\Event;
+use Phalcon\Events\Manager as EventsManager;
 
 // Define some absolute path constants to aid in locating resources
 define('BASE_PATH', dirname(__DIR__));
@@ -32,7 +34,7 @@ $loader->registerDirs(
 $loader->registerNamespaces(
     [
         'App\Components' => APP_PATH . '/components',
-
+        'App\Listeners' => APP_PATH . '/listeners',
     ]
 );
 
@@ -92,9 +94,23 @@ $container->set(
     (new \App\Components\Mycurl())
 );
 
+
+$eventsManager = new EventsManager();
+
+
+$eventsManager->attach(
+    'application:beforeHandleRequest',
+    new \App\Listeners\TokenListeners()
+);
+
+$container->set(
+    'EventsManager',
+    $eventsManager,
+);
+
 $application = new Application($container);
 
-
+$application->setEventsManager($eventsManager);
 try {
     // Handle the request
     $response = $application->handle(

@@ -7,9 +7,7 @@ class PlaylistController extends Controller
 {
     public function createPlaylistAction()
     {
-        // print_r($this->session->get('bearer'));
-        print_r($this->session->get('query'));
-        // die();
+
         if ($this->request->has('playlist')) {
             $playlist_body = [
                 "name" => $this->request->get('playlist'),
@@ -33,7 +31,6 @@ class PlaylistController extends Controller
                 ]
             ],
         ];
-
         $result = $this->Mycurl->find("DELETE", '/playlists/' . $playlist_name . '/tracks', $playlist_body);
         $this->response->redirect('playlist/myPlaylist?myPlaylist=' . $playlist_name);
     }
