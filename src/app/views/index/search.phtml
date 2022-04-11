@@ -1,6 +1,6 @@
 <?php
 header("Cache-Control: no cache");
-
+// var_dump(isset($result->tracks));
 ?>
 
 <!DOCTYPE html>
@@ -14,110 +14,216 @@ header("Cache-Control: no cache");
 </head>
 
 <body class="container text-light mt-4" style="background-color:#121212">
-    <div class="row">
-        <div class="col-4">
-            <div class="row h3">
-                Top Result
-            </div>
-            <div class="row border rounded p-2 m-auto">
-                <div class="col-12 mt-2">
-                    <img src="<?php echo $top_result['album']['images'][1]['url'] ?>">
+    <?php if (isset($result->tracks)) { ?>
+        <div class="row">
+            <div class="col-4">
+                <div class="row h3">
+                    Top Result
                 </div>
-                <div class="col-12 h5 text-bold mt-2">
-                    <?php echo $top_result['name'] ?>
-                </div>
-                <div class="col-12 mt-2 my-2">
-                    <?php echo $top_result['artists'][1]['name'] ?> <span class="mx-4 p-2" style="background-color:black;">Songs</span>
-                </div>
-            </div>
-            <div class="col h4 mt-4 p-3 border rounded">
-                <div class="col-12 mt-3">
-                    <?php echo $this->tag->linkTo('index/createPlaylist', 'Create Playlist'); ?>
-                </div>
-                <div class="col-12 mt-3">
-                    <?php echo $this->tag->linkTo('index/likedSongs', 'Liked Songs'); ?>
-                </div>
-                <div class="col-12 mt-3">
-                    <?php echo $this->tag->linkTo('index/yourLibrary', 'Your Library'); ?>
-                </div>
-
-            </div>
-            <div class="col h4 mt-4 p-3 border rounded">
-                <div class="col-12 mt-3">
-                    Your Playlist
-                    <hr class="bg-light">
-                </div>
-                <?php foreach ($myPlaylists->items as $playlist) { ?>
-                    <?php echo $this->tag->form(['index/myPlaylist']); ?>
-                    <div class="col-12 mt-3">
-                        <?php echo $this->tag->submitButton([$playlist['name'], 'class' => 'nav nav-link text-white border-0', 'style' => 'background-color:#121212']); ?>
-                        <?php echo $this->tag->hiddenField(['index/myPlaylist', $playlist['name'], 'name' => 'myPlaylist', 'value' => $playlist['id']]); ?>
+                <div class="row border rounded p-2 m-auto">
+                    <div class="col-12 mt-2">
+                        <img src="<?php echo $top_result['album']['images'][1]['url'] ?>">
                     </div>
-                    <?php echo $this->tag->endForm(); ?>
+                    <div class="col-12 h5 text-bold mt-2">
+                        <?php echo $top_result['name'] ?>
+                    </div>
+                    <div class="col-12 mt-2 my-2">
+                        <?php echo $top_result['artists'][1]['name'] ?> <span class="mx-4 p-2" style="background-color:black;">Songs</span>
+                    </div>
+                </div>
+                <div class="col h4 mt-4 p-3 border rounded">
+                    <div class="col-12 mt-3">
+                        <?php echo $this->tag->linkTo('index/createPlaylist', 'Create Playlist'); ?>
+                    </div>
+                    <div class="col-12 mt-3">
+                        <?php echo $this->tag->linkTo('index/likedSongs', 'Liked Songs'); ?>
+                    </div>
+                    <div class="col-12 mt-3">
+                        <?php echo $this->tag->linkTo('index/yourLibrary', 'Your Library'); ?>
+                    </div>
 
-                <?php } ?>
-            </div>
-        </div>
-        <div class="col-1"></div>
-        <div class="col-6">
-            <div class="row h3">Songs</div>
-            <div class="row border rounded p-2">
-                <div class="col-12 ps-5">
-                    <?php foreach ($result->tracks['items'] as $track) { ?>
-                        <div class="row mt-3">
-                            <div class="col-2"><img src="<?php echo $track['album']['images'][2]['url'] ?>"></div>
-                            <div class="col-4 m-auto"><?php echo $track['name'] ?></div>
-                            <div class="col-3 m-auto"><?php echo $track['album']['artists'][0]['name'] ?></div>
-                            <div class="col-2 m-auto"><?php
-                                                        $input = $track['duration_ms'];
-
-                                                        $uSec = $input % 1000;
-                                                        $input = floor($input / 1000);
-
-                                                        $seconds = $input % 60;
-                                                        $input = floor($input / 60);
-
-                                                        $minutes = $input % 60;
-                                                        $input = floor($input / 60);
-
-                                                        $hour = $input;
-
-                                                        echo sprintf('%2d:%02d',  $minutes, $seconds);
-
-                                                        ?>&nbsp;
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#1DB954" class="bi bi-play-circle-fill" viewBox="0 0 16 16">
-                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814l-3.5-2.5z" />
-                                </svg>
-
-
-
-
-                            </div>
-                            <div class="col-1 mt-3">
-                                <?php echo $this->tag->form(['index/addToPlaylist']); ?>
-                                <?php echo $this->tag->submitButton(['ADD', 'class' => 'nav nav-link text-white border-0', 'style' => 'background-color:#121212']); ?>
-                                <?php echo $this->tag->hiddenField([$track['name'], 'name' => 'song', 'value' => $track['uri']]); ?>
-                
-                                <?php echo $this->tag->endForm(); ?>
-                            </div>
-
+                </div>
+                <div class="col h4 mt-4 p-3 border rounded">
+                    <div class="col-12 mt-3">
+                        Your Playlist
+                        <hr class="bg-light">
+                    </div>
+                    <?php foreach ($myPlaylists->items as $playlist) { ?>
+                        <?php echo $this->tag->form(['index/myPlaylist']); ?>
+                        <div class="col-12 mt-3">
+                            <?php echo $this->tag->submitButton([$playlist['name'], 'class' => 'nav nav-link text-white border-0', 'style' => 'background-color:#121212']); ?>
+                            <?php echo $this->tag->hiddenField(['index/myPlaylist', $playlist['name'], 'name' => 'myPlaylist', 'value' => $playlist['id']]); ?>
                         </div>
-
+                        <?php echo $this->tag->endForm(); ?>
                     <?php } ?>
                 </div>
             </div>
+            <div class="col-1"></div>
+            <div class="col-6">
+                <div class="row h3">Songs</div>
+                <div class="row border rounded p-2">
+                    <div class="col-12 ps-5">
+                        <?php foreach ($result->tracks['items'] as $track) { ?>
+                            <div class="row mt-3">
+                                <div class="col-2"><img src="<?php echo $track['album']['images'][2]['url'] ?>"></div>
+                                <div class="col-4 m-auto"><?php echo $track['name'] ?></div>
+                                <div class="col-3 m-auto"><?php echo $track['album']['artists'][0]['name'] ?></div>
+                                <div class="col-2 m-auto"><?php
+                                                            $input = $track['duration_ms'];
 
+                                                            $uSec = $input % 1000;
+                                                            $input = floor($input / 1000);
+
+                                                            $seconds = $input % 60;
+                                                            $input = floor($input / 60);
+
+                                                            $minutes = $input % 60;
+                                                            $input = floor($input / 60);
+
+                                                            $hour = $input;
+
+                                                            echo sprintf('%2d:%02d',  $minutes, $seconds);
+
+                                                            ?>&nbsp;
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#1DB954" class="bi bi-play-circle-fill" viewBox="0 0 16 16">
+                                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814l-3.5-2.5z" />
+                                    </svg>
+                                </div>
+                                <div class="col-1 mt-3">
+                                    <?php echo $this->tag->form(['index/addToPlaylist']); ?>
+                                    <?php echo $this->tag->submitButton(['ADD', 'class' => 'nav nav-link text-white border-0', 'style' => 'background-color:#121212']); ?>
+                                    <?php echo $this->tag->hiddenField([$track['name'], 'name' => 'song', 'value' => $track['uri']]); ?>
+                                    <?php echo $this->tag->endForm(); ?>
+                                </div>
+                            </div>
+                        <?php } ?>
+                    </div>
+                </div>
+
+            </div>
         </div>
-    </div>
+    <?php } ?>
+
+    <?php if (isset($result->artists)) { ?>
+        <h1 class="mt-4">Artists</h1>
+        <div class="row mt-2 border p-5">
+            <div class="row ">
+                <?php foreach ($result->artists['items'] as $artist) {
+                    if (count($artist['images']) == 0) {
+                        continue;
+                    } ?>
+                    <a href="http://localhost:8080/index/artists?artist=<?php echo $artist['id'] ?>">
+                        <div class="card bg-dark" style="width:250px; margin-right:10px;margin-bottom:10px;text-decoration:none">
+                            <img class="card-img-top rounded-pill" src="<?php
+                                                                        echo $artist['images'][1]['url'];
+                                                                        ?>" alt="Card image">
+                            <div class="card-body text-center">
+                                <h4 class="card-title"><?php echo $artist['name'] ?></h4>
+
+                            </div>
+                        </div>
+                    </a>
+                <?php } ?>
+            </div>
+        </div>
+    <?php } ?>
+
+    <?php if (isset($result->albums)) { ?>
+        <h1 class="mt-4">Albums</h1>
+        <div class="row mt-2 border p-5">
+            <div class="row ">
+                <?php foreach ($result->albums['items'] as $album) {
+                    if (count($album['images']) == 0) {
+                        continue;
+                    } ?>
+                    <a href="http://localhost:8080/index/albums?album=<?php echo $album['id'] ?>">
+                        <div class="card bg-dark" style="width:250px; margin-right:10px;margin-bottom:10px;text-decoration:none">
+                            <img class="card-img-top rounded-pill" src="<?php
+                                                                        echo $album['images'][1]['url'];
+                                                                        ?>" alt="Card image">
+                            <div class="card-body text-center">
+                                <h4 class="card-title"><?php echo $album['name'] ?></h4>
+
+                            </div>
+                        </div>
+                    </a>
+                <?php } ?>
+            </div>
+        </div>
+    <?php } ?>
+
+    <?php if (isset($result->playlists)) { ?>
+        <h1 class="mt-4">Playlists</h1>
+        <div class="row mt-2 border p-5">
+            <div class="row ">
+                <?php foreach ($result->playlists['items'] as $playlists) {
+                    if (!isset($playlists['images'][1])) {
+                        continue;
+                    } ?>
+                    <a href="http://localhost:8080/index/pla$playlistss?pla$playlists=<?php echo $playlists['id'] ?>">
+                        <div class="card bg-dark" style="width:250px; margin-right:10px;margin-bottom:10px;text-decoration:none">
+                            <img class="card-img-top rounded-pill" src="<?php
+                                                                        echo $playlists['images'][1]['url'];
+                                                                        ?>" alt="Card image">
+                            <div class="card-body text-center">
+                                <h4 class="card-title"><?php echo $playlists['name'] ?></h4>
+
+                            </div>
+                        </div>
+                    </a>
+                <?php } ?>
+            </div>
+        </div>
+    <?php } ?>
+
+    <?php if (isset($result->shows)) { ?>
+        <h1 class="mt-4">Shows</h1>
+        <div class="row mt-2 border p-5">
+            <div class="row ">
+                <?php foreach ($result->shows['items'] as $shows) {
+                    if (!isset($shows['images'][1])) {
+                        continue;
+                    } ?>
+                    <a href="http://localhost:8080/index/pla$showss?pla$shows=<?php echo $shows['id'] ?>">
+                        <div class="card bg-dark" style="width:250px; margin-right:10px;margin-bottom:10px;text-decoration:none">
+                            <img class="card-img-top rounded-pill" src="<?php
+                                                                        echo $shows['images'][1]['url'];
+                                                                        ?>" alt="Card image">
+                            <div class="card-body text-center">
+                                <h4 class="card-title"><?php echo $shows['name'] ?></h4>
+
+                            </div>
+                        </div>
+                    </a>
+                <?php } ?>
+            </div>
+        </div>
+    <?php } ?>
+
+    <?php if (isset($result->episodes)) { ?>
+        <h1 class="mt-4">Shows</h1>
+        <div class="row mt-2 border p-5">
+            <div class="row ">
+                <?php foreach ($result->episodes['items'] as $episodes) {
+                    if (!isset($episodes['images'][1])) {
+                        continue;
+                    } ?>
+                    <a href="http://localhost:8080/index/pla$episodess?pla$episodes=<?php echo $episodes['id'] ?>">
+                        <div class="card bg-dark" style="width:250px; margin-right:10px;margin-bottom:10px;text-decoration:none">
+                            <img class="card-img-top rounded-pill" src="<?php
+                                                                        echo $episodes['images'][1]['url'];
+                                                                        ?>" alt="Card image">
+                            <div class="card-body text-center">
+                                <h4 class="card-title"><?php echo $episodes['name'] ?></h4>
+
+                            </div>
+                        </div>
+                    </a>
+                <?php } ?>
+            </div>
+        </div>
+    <?php } ?>
+
 </body>
 
 </html>
-
-<?php
-echo "<pre>";
-// print_r($top_result);
-// echo "ads";
-echo "<pre>";
-
-// print_r($result->tracks['items']); 
-?>

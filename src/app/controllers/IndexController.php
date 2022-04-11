@@ -25,7 +25,7 @@ class IndexController extends Controller
         $result = $this->find('GET', $url);
         $myPlaylists = $this->find('GET', '/me/playlists');
         $top_result = $this->topResults($result->tracks['items']);
-        
+
         $this->view->result = $result;
         $this->view->top_result = $top_result;
         $this->view->myPlaylists = $myPlaylists;
@@ -101,6 +101,15 @@ class IndexController extends Controller
             }
         }
         return $top_result;
+    }
+
+    public function artistsAction()
+    {
+        $top_tracks = $this->find("GET", '/artists/' . $this->request->get('artist') . '/top-tracks?market=ES');
+        $artist = $this->find("GET", '/artists/' . $this->request->get('artist'));
+        // $artist_albums = $this->find("GET", '/artists/' . $this->request->get('artist').'/albums?market=ES');
+        $this->view->top_tracks = $top_tracks;
+        $this->view->artist = $artist;
     }
 
     public function find($method, $query = '', $body = '')
