@@ -26,14 +26,14 @@
             <div class="row ">
                 ID : <?php echo $user->id; ?></div>
         </div>
-    
 
-    <div class="col-5"></div>
-    <div class="col-2 ">
-        <a href="http://localhost:8080/">
-            <span class="btn btn-light"> Search</span>
-        </a>
-    </div>
+
+        <div class="col-5"></div>
+        <div class="col-2 ">
+            <a href="http://localhost:8080/">
+                <span class="btn btn-light"> Search</span>
+            </a>
+        </div>
 
     </div>
 
@@ -42,6 +42,8 @@
             <div class="row h3 my-4">Recommended Songs</div>
             <div class="row border rounded p-2">
                 <div class="col-12 ps-5">
+                    <!-- -------------------------------------------loop starts --------------------------------------->
+
                     <?php foreach ($recommendations->tracks as $track) { ?>
                         <div class="row mt-3">
                             <div class="col-2"><img src="<?php echo $track['album']['images'][2]['url'] ?>"></div>
@@ -69,13 +71,19 @@
                                 </svg>
                             </div>
                             <div class="col-1 mt-3">
+                                <!-- -------------------------------------------form starts --------------------------------------->
+
                                 <?php echo $this->tag->form(['playlist/addToPlaylist']); ?>
                                 <?php echo $this->tag->submitButton(['ADD', 'class' => 'nav nav-link text-white border-0', 'style' => 'background-color:#121212']); ?>
                                 <?php echo $this->tag->hiddenField([$track['name'], 'name' => 'song', 'value' => $track['uri']]); ?>
                                 <?php echo $this->tag->endForm(); ?>
+                                <!-- -------------------------------------------form ends --------------------------------------->
+
                             </div>
                         </div>
                     <?php } ?>
+                    <!-- -------------------------------------------loop ends --------------------------------------->
+
                 </div>
             </div>
 

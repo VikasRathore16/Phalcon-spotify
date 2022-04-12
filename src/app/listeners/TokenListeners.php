@@ -6,15 +6,26 @@ use Phalcon\Http\Response;
 use Phalcon\Di\Injectable;
 use Phalcon\Events\Event;
 
-
+/**
+ * TokenListeners class
+ * generate new bearer_token
+ */
 class TokenListeners extends Injectable
 {
+    /**
+     * beforHandleRequest function
+     * generate new bearer_token after expiry time with the help of refresh token
+     * @param Event $event
+     * @param [object] $user
+     * @return void
+     */
     public function beforeHandleRequest(Event $event, $user)
     {
-
-        $client_id = 'f559cc964f2046428482e389e7960d53';
-        $client_key = '2c153c753ecf4fad988c7a95514d7cb4';
+        $client_id = $this->config->get('app')['client_id'];
+        $client_key = $this->config->get('app')['client_key'];
         $url = "https://accounts.spotify.com/api/token";
+
+        //header
         $headers = array(
             "Accept: application/json",
             "Content-Type: application/x-www-form-urlencoded",
@@ -23,6 +34,7 @@ class TokenListeners extends Injectable
             ),
         );
 
+        //init curl
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -35,10 +47,11 @@ class TokenListeners extends Injectable
         $result = curl_exec($ch);
 
         $result = json_decode($result);
+
+        //save new token to session and database
         $this->session->set('bearer', $result->access_token);
         $user[0]->access_token = $result->access_token;
         $user[0]->save();
-        // return $result;
         $this->response->redirect('user/dashboard');
     }
 }

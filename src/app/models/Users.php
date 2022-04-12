@@ -2,6 +2,10 @@
 
 use Phalcon\Mvc\Model;
 
+/**
+ * Users class
+ * Model
+ */
 class Users extends Model
 {
     public $id;

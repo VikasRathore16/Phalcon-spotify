@@ -14,6 +14,9 @@ header("Cache-Control: no cache");
 <body class="container mt-5 text-light" style="background-color:#000000">
 
     <div class="h3 my-3"><?php echo $myPlaylist->name; ?></div>
+
+    <!-- -------------------------------------------table starts --------------------------------------->
+
     <table class="table" style="width:100%;color:white;">
         <thead>
             <tr>
@@ -29,6 +32,7 @@ header("Cache-Control: no cache");
             </tr>
         </thead>
         <tbody>
+            <!-- -------------------------------------------loop starts --------------------------------------->
             <?php
             $count = 1;
             foreach ($myPlaylist->tracks['items'] as $track) { ?>
@@ -37,6 +41,7 @@ header("Cache-Control: no cache");
                     <td><img src="<?php echo $track['track']['album']['images'][2]['url'] ?>">&nbsp;&nbsp;<?php echo $track['track']['name'] ?></td>
                     <td><?php echo $track['track']['album']['name'] ?></td>
                     <td><?php
+                        //converting duration into minutes
                         $input = $track['track']['duration_ms'];
 
                         $uSec = $input % 1000;
@@ -54,19 +59,24 @@ header("Cache-Control: no cache");
 
                         ?></td>
                     <td>
+                        <!-- -------------------------------------------form starts --------------------------------------->
                         <?php echo $this->tag->form(['playlist/deleteFromPlaylist']); ?>
-
                         <?php echo $this->tag->hiddenField([$myPlaylist->name, 'name' => 'myPlaylist', 'value' => $myPlaylist->id]); ?>
                         <?php echo $this->tag->hiddenField([$this->request->get('song'), 'name' => 'song', 'value' => $track['track']['uri']]); ?>
                         <?php echo $this->tag->submitButton(['Delete', 'class' => 'nav nav-link text-white border-0', 'style' => 'background-color:#121212']); ?>
                         <?php echo $this->tag->endForm(); ?>
+                        <!-- -------------------------------------------form ends --------------------------------------->
+
 
                     </td>
                 </tr>
 
             <?php } ?>
+            <!-- -------------------------------------------loop ends --------------------------------------->
+
         </tbody>
     </table>
+    <!-- -------------------------------------------table ends --------------------------------------->
 
 </body>
 

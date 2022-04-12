@@ -4,6 +4,9 @@ namespace App\Components;
 
 use Phalcon\Escaper;
 
+/**
+ * Myescaper class
+ */
 class Myescaper
 {
     public $escaper;
@@ -11,6 +14,13 @@ class Myescaper
     {
         $this->escaper =  new Escaper();
     }
+
+    /**
+     * santize function
+     * escape all html characters from array
+     * @param [array] $request
+     * @return void
+     */
     public function santize($request)
     {
         $arr = array();

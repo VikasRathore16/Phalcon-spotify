@@ -2,12 +2,19 @@
 
 use Phalcon\Mvc\Controller;
 
-
+/**
+ * PlaylistController class
+ */
 class PlaylistController extends Controller
 {
+    /**
+     * createPlaylist function
+     * creates a new Playlist
+     * @return void
+     */
     public function createPlaylistAction()
     {
-
+        //check if playlist name is passed or not
         if ($this->request->has('playlist')) {
             $playlist_body = [
                 "name" => $this->request->get('playlist'),
@@ -20,6 +27,11 @@ class PlaylistController extends Controller
         }
     }
 
+    /**
+     * deleteFromPlaylist function
+     * Delete tracks from Playlist
+     * @return void
+     */
     public function deleteFromPlaylistAction()
     {
         $song = $this->request->get('song');
@@ -35,27 +47,33 @@ class PlaylistController extends Controller
         $this->response->redirect('playlist/myPlaylist?myPlaylist=' . $playlist_name);
     }
 
+    /**
+     * myPlaylist function
+     * gives all user Playlists
+     * @return void
+     */
     public function myPlaylistAction()
     {
-
         if ($this->request->has('myPlaylist')) {
             $result = $this->Mycurl->find("GET", '/playlists/' . $this->request->get('myPlaylist'));
             $this->view->myPlaylist = $result;
         }
     }
 
+    /**
+     * addToPlaylist function
+     * Add a track to playlist
+     * @return void
+     */
     public function addToPlaylistAction()
     {
 
         $myPlaylists = $this->Mycurl->find('GET', '/me/playlists');
         $this->view->myPlaylists = $myPlaylists;
         if ($this->request->has('song') && $this->request->get('myPlaylist')) {
-            print_r($this->request->get('myPlaylist'));
-            // die();
             $result = $this->Mycurl->find("POST", '/playlists/' . $this->request->get('myPlaylist') . '/tracks?uris=' . $this->request->get('song'));
             $this->view->myPlaylist = $result;
             $this->response->redirect('playlist/myPlaylist?myPlaylist=' . $this->request->get('myPlaylist'));
         }
     }
-
 }

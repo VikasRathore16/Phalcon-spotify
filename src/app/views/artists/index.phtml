@@ -8,10 +8,11 @@
     <title>Document</title>
 </head>
 
-<body class="container mt-4 ">
+<body class="container mt-5 text-light" style="background-color:#000000">
     <div class="h2 my-3 row"><?php echo $artist->name; ?></div>
     <div class="row h3">Top Tracks</div>
-    <table class="table" style="width:100%">
+    <!-------------------------------------------------------------- table starts --------------------------------------------->
+    <table class="table" style="width:100%;color:white">
         <thead>
             <tr>
                 <th scope="col">#</th>
@@ -28,13 +29,14 @@
         <tbody>
             <?php
             $count = 1;
-            foreach($top_tracks->tracks as $track) {
+            foreach ($top_tracks->tracks as $track) {
             ?>
                 <tr>
                     <th scope="row"><?php echo $count++; ?></th>
                     <td><img src="<?php echo $track['album']['images'][2]['url'] ?>">&nbsp;&nbsp;<?php echo $track['name'] ?></td>
                     <td><?php echo $track['album']['name'] ?></td>
                     <td><?php
+                        //converting duration into minutes
                         $input = $track['duration_ms'];
 
                         $uSec = $input % 1000;
@@ -52,10 +54,12 @@
 
                         ?></td>
                     <td>
-                        <?php echo $this->tag->form(['index/addToPlaylist']); ?>
+                        <!--------------------------------------- form starts--------------------------------------------->
+                        <?php echo $this->tag->form(['playlist/addToPlaylist']); ?>
                         <?php echo $this->tag->hiddenField([$this->request->get('song'), 'name' => 'song', 'value' => $track['uri']]); ?>
                         <?php echo $this->tag->submitButton(['Add', 'class' => 'nav nav-link text-white border-0', 'style' => 'background-color:#121212']); ?>
                         <?php echo $this->tag->endForm(); ?>
+                        <!--------------------------------------- form ends--------------------------------------------->
 
                     </td>
                 </tr>
@@ -63,6 +67,7 @@
             <?php } ?>
         </tbody>
     </table>
+    <!-------------------------------------------------------------- table ends --------------------------------------------->
 
 </body>
 

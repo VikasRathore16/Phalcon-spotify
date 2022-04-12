@@ -10,6 +10,7 @@ header("Cache-Control: no cache");
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body class="container mt-5 text-light" style="background-color:#000000">
 
     <div class="row">
@@ -17,6 +18,8 @@ header("Cache-Control: no cache");
             <div class="row h3">My Playlist</div>
             <div class="row border rounded p-2 mt-4">
                 <div class="col-12 p-4">
+                    
+                    <!-- -------------------------------------------loop starts--------------------------------------->
                     <?php foreach ($myPlaylists->items as $playlist) { ?>
 
                         <div class="row mt-3">
@@ -24,15 +27,19 @@ header("Cache-Control: no cache");
                             <div class="col-4 m-auto"></div>
                             <div class="col-3 m-auto"></div>
                             <div class="col-1 mt-3">
+                                <!-- -------------------------------------------Form starts--------------------------------------->
                                 <?php echo $this->tag->form(['']); ?>
                                 <?php echo $this->tag->hiddenField([$playlist['name'], 'name' => 'myPlaylist', 'value' => $playlist['id']]); ?>
                                 <?php echo $this->tag->hiddenField([$this->request->get('song'), 'name' => 'song', 'value' => $this->request->get('song')]); ?>
                                 <?php echo $this->tag->submitButton(['ADD', 'class' => 'nav nav-link text-white border-0', 'style' => 'background-color:#121212']); ?>
                                 <?php echo $this->tag->endForm(); ?>
+                                <!-- -------------------------------------------Form ends--------------------------------------->
 
                             </div>
                         </div>
                     <?php } ?>
+                    <!-- -------------------------------------------loop ends--------------------------------------->
+
                 </div>
             </div>
 

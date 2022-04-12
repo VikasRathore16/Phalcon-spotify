@@ -13,6 +13,7 @@ header("Cache-Control: no cache");
 </head>
 
 <body class="container text-light mt-4" style="background-color:#121212">
+    <!--------------------------- cheking if result object has tracks key or not ------------------------>
     <?php if (isset($result->tracks)) { ?>
         <div class="row">
             <div class="col-4">
@@ -103,22 +104,25 @@ header("Cache-Control: no cache");
             </div>
         </div>
     <?php } ?>
+    <!--------------------------- cheking ends ----------------------------------------------------------->
 
-    <?php if (isset($result->artists)) { ?>
-        <h1 class="mt-4">Artists</h1>
+
+    <!--------------------------- looping all result object keys from form checkboxes and skipping tracks key ----------->
+    <?php foreach ($result as $key => $values) {
+        if ($key == 'tracks') continue; ?>
+        <h1 class="mt-4"><?php echo  ucwords($key) ?></h1>
         <div class="row mt-2 border p-5">
             <div class="row ">
-                <?php foreach ($result->artists['items'] as $artist) {
-                    if (count($artist['images']) == 0) {
-                        continue;
-                    } ?>
-                    <a href="http://localhost:8080/index/artists?artist=<?php echo $artist['id'] ?>">
+                <?php foreach ($values['items'] as $items) {
+                    if (!isset($items['images'][1])) continue;
+                ?>
+                    <a href="http://localhost:8080/<?php echo "$key" . "?$key=" . $items['id'] ?>">
                         <div class="card bg-dark" style="width:250px; margin-right:10px;margin-bottom:10px;text-decoration:none">
                             <img class="card-img-top rounded-pill" src="<?php
-                                                                        echo $artist['images'][1]['url'];
+                                                                        echo $items['images'][1]['url'];
                                                                         ?>" alt="Card image">
                             <div class="card-body text-center">
-                                <h4 class="card-title"><?php echo $artist['name'] ?></h4>
+                                <h4 class="card-title"><?php echo $items['name'] ?></h4>
 
                             </div>
                         </div>
@@ -127,102 +131,8 @@ header("Cache-Control: no cache");
             </div>
         </div>
     <?php } ?>
+    <!--------------------------- loop ends ----------------------------------------------------------->
 
-    <?php if (isset($result->albums)) { ?>
-        <h1 class="mt-4">Albums</h1>
-        <div class="row mt-2 border p-5">
-            <div class="row ">
-                <?php foreach ($result->albums['items'] as $album) {
-                    if (count($album['images']) == 0) {
-                        continue;
-                    } ?>
-                    <a href="http://localhost:8080/index/albums?album=<?php echo $album['id'] ?>">
-                        <div class="card bg-dark" style="width:250px; margin-right:10px;margin-bottom:10px;text-decoration:none">
-                            <img class="card-img-top rounded-pill" src="<?php
-                                                                        echo $album['images'][1]['url'];
-                                                                        ?>" alt="Card image">
-                            <div class="card-body text-center">
-                                <h4 class="card-title"><?php echo $album['name'] ?></h4>
-
-                            </div>
-                        </div>
-                    </a>
-                <?php } ?>
-            </div>
-        </div>
-    <?php } ?>
-
-    <?php if (isset($result->playlists)) { ?>
-        <h1 class="mt-4">Playlists</h1>
-        <div class="row mt-2 border p-5">
-            <div class="row ">
-                <?php foreach ($result->playlists['items'] as $playlists) {
-                    if (!isset($playlists['images'][1])) {
-                        continue;
-                    } ?>
-                    <a href="http://localhost:8080/index/pla$playlistss?pla$playlists=<?php echo $playlists['id'] ?>">
-                        <div class="card bg-dark" style="width:250px; margin-right:10px;margin-bottom:10px;text-decoration:none">
-                            <img class="card-img-top rounded-pill" src="<?php
-                                                                        echo $playlists['images'][1]['url'];
-                                                                        ?>" alt="Card image">
-                            <div class="card-body text-center">
-                                <h4 class="card-title"><?php echo $playlists['name'] ?></h4>
-
-                            </div>
-                        </div>
-                    </a>
-                <?php } ?>
-            </div>
-        </div>
-    <?php } ?>
-
-    <?php if (isset($result->shows)) { ?>
-        <h1 class="mt-4">Shows</h1>
-        <div class="row mt-2 border p-5">
-            <div class="row ">
-                <?php foreach ($result->shows['items'] as $shows) {
-                    if (!isset($shows['images'][1])) {
-                        continue;
-                    } ?>
-                    <a href="http://localhost:8080/index/pla$showss?pla$shows=<?php echo $shows['id'] ?>">
-                        <div class="card bg-dark" style="width:250px; margin-right:10px;margin-bottom:10px;text-decoration:none">
-                            <img class="card-img-top rounded-pill" src="<?php
-                                                                        echo $shows['images'][1]['url'];
-                                                                        ?>" alt="Card image">
-                            <div class="card-body text-center">
-                                <h4 class="card-title"><?php echo $shows['name'] ?></h4>
-
-                            </div>
-                        </div>
-                    </a>
-                <?php } ?>
-            </div>
-        </div>
-    <?php } ?>
-
-    <?php if (isset($result->episodes)) { ?>
-        <h1 class="mt-4">Shows</h1>
-        <div class="row mt-2 border p-5">
-            <div class="row ">
-                <?php foreach ($result->episodes['items'] as $episodes) {
-                    if (!isset($episodes['images'][1])) {
-                        continue;
-                    } ?>
-                    <a href="http://localhost:8080/index/pla$episodess?pla$episodes=<?php echo $episodes['id'] ?>">
-                        <div class="card bg-dark" style="width:250px; margin-right:10px;margin-bottom:10px;text-decoration:none">
-                            <img class="card-img-top rounded-pill" src="<?php
-                                                                        echo $episodes['images'][1]['url'];
-                                                                        ?>" alt="Card image">
-                            <div class="card-body text-center">
-                                <h4 class="card-title"><?php echo $episodes['name'] ?></h4>
-
-                            </div>
-                        </div>
-                    </a>
-                <?php } ?>
-            </div>
-        </div>
-    <?php } ?>
 
 </body>
 

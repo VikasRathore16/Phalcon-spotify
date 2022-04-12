@@ -3,13 +3,20 @@
 use Phalcon\Mvc\Controller;
 use Phalcon\Http\Request;
 
-
+/**
+ * UserController class
+ * login, logout, Sign up , dashboard
+ */
 class UserController extends Controller
 {
+    /**
+     * login function
+     * check if user email exists or not and then redirect
+     * @return void
+     */
     public function loginAction()
     {
         if ($this->request->isPost()) {
-
             $email = $this->request->getPost('email');
             $password = $this->request->getPost('password');
             $checkemail = Users::findByEmail($email);
@@ -27,12 +34,24 @@ class UserController extends Controller
             }
         }
     }
+
+    /**
+     * logout function
+     * destroy session
+     * @return void
+     */
     public function logoutAction()
     {
         $this->session->destroy('user_id');
         $this->session->destroy('bearer');
         $this->response->redirect('index');
     }
+
+    /**
+     * signup function
+     * Create a new user
+     * @return void
+     */
     public function signupAction()
     {
         $user = new Users();
@@ -67,6 +86,12 @@ class UserController extends Controller
             }
         }
     }
+
+    /**
+     * dashboard function
+     * user dashboard
+     * @return void
+     */
     public function dashboardAction()
     {
         $current_spotify_user = $this->Mycurl->find('GET', '/me');
