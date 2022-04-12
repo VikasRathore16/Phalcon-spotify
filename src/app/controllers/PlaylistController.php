@@ -49,7 +49,7 @@ class PlaylistController extends Controller
 
     /**
      * myPlaylist function
-     * gives all user Playlists
+     * gives all Playlists of a user
      * @return void
      */
     public function myPlaylistAction()
@@ -68,12 +68,11 @@ class PlaylistController extends Controller
     public function addToPlaylistAction()
     {
 
-        $myPlaylists = $this->Mycurl->find('GET', '/me/playlists');
-        $this->view->myPlaylists = $myPlaylists;
         if ($this->request->has('song') && $this->request->get('myPlaylist')) {
             $result = $this->Mycurl->find("POST", '/playlists/' . $this->request->get('myPlaylist') . '/tracks?uris=' . $this->request->get('song'));
-            $this->view->myPlaylist = $result;
             $this->response->redirect('playlist/myPlaylist?myPlaylist=' . $this->request->get('myPlaylist'));
         }
+        $myPlaylists = $this->Mycurl->find('GET', '/me/playlists');
+        $this->view->myPlaylists = $myPlaylists;
     }
 }

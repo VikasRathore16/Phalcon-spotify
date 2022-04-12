@@ -20,7 +20,6 @@ class SpotifyController extends Controller
         $url = 'https://accounts.spotify.com/authorize?';
 
         $data = array(
-
             'response_type' => 'code',
             'client_id' => $client_id,
             'scope' => $scope,

@@ -4,6 +4,9 @@ use Phalcon\Mvc\Controller;
 
 /**
  * IndexController class
+ * 
+ * @package Spotify Main
+ *  * 
  */
 class IndexController extends Controller
 {
@@ -29,25 +32,26 @@ class IndexController extends Controller
         $query = $this->request->get('query');
         $url = '/search?q=' . $query . '&type=';
         //checking query if empty or not
-        if (!empty($_POST)) {
-            $this->session->set('postArray', $_POST);
-            $types = $this->session->get('postArray');
-        } else {
-            $types = $this->session->get('postArray');
+        if (!empty($_GET)) {
+            if (count($_GET) < 3) {
+                $_GET['track'] = 'track';
+            }
+            $this->session->set('postArray', $_GET);
         }
+
+        $types = $this->session->get('postArray');
+        $types =  array_slice($types, 2);
 
         //concatenating url
-        foreach (array_slice($types, 1) as $key => $value) {
-            $url .= $value . ',';
-        }
-
-        $url = rtrim($url, ",");
+        $url = $url . implode(",", $types);
 
         //setting query to session
         $this->session->set('query', $query);
-        $result = $this->Mycurl->Mycurl->find('GET', $url);
+        $result = $this->Mycurl->find('GET', $url);
         $myPlaylists = $this->Mycurl->find('GET', '/me/playlists');
         $top_result = $this->topResults($result->tracks['items']);
+        echo "<pre>";
+        print_r($result);
 
         //view call
         $this->view->result = $result;

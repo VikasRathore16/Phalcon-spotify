@@ -71,7 +71,7 @@ class Mycurl extends Injectable
             $user = Users::find($this->session->get('user_id'));
             $eventsManager = $this->di->get('EventsManager');
             $result =  $eventsManager->fire('token:beforeHandleRequest', $user);
-            
+
             $this->response->redirect('user/dashboard');
         }
     }

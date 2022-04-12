@@ -12,7 +12,24 @@ header("Cache-Control: no cache");
     <title>Document</title>
 </head>
 
-<body class="container text-light mt-4" style="background-color:#121212">
+<body class="container text-light " style="background-color:#121212">
+    <div class="row">
+        <div class="col-2">
+            <span class="btn btn-info my-5"> Dashboard</span>
+        </div>
+        <div class="col-6">
+            <?php echo $this->tag->form(['index/search', 'class' => 'text-center  p-4 ', 'method' => 'get']); ?>
+            <div class="row">
+                <?php echo $this->tag->textField(['query', 'class' => 'form-control col-8 mx-3']) ?>
+                <?php echo $this->tag->submitButton(['Search', 'class' => 'btn btn-info']); ?>
+            </div>
+            <?php echo $this->tag->endForm(); ?>
+
+        </div>
+        <div class="col-1">
+            <span class="btn btn-danger my-5"> Logout</span>
+        </div>
+    </div>
     <!--------------------------- cheking if result object has tracks key or not ------------------------>
     <?php if (isset($result->tracks)) { ?>
         <div class="row">
@@ -49,14 +66,17 @@ header("Cache-Control: no cache");
                         Your Playlist
                         <hr class="bg-light">
                     </div>
+                    <!------------------------------------------------- loop starts ---------------------------------------->
                     <?php foreach ($myPlaylists->items as $playlist) { ?>
-                        <?php echo $this->tag->form(['playlist/myPlaylist']); ?>
+                        <?php echo $this->tag->form(['playlist/myPlaylist', 'method' => 'get']); ?>
                         <div class="col-12 mt-3">
-                            <?php echo $this->tag->submitButton([$playlist['name'], 'class' => 'nav nav-link text-white border-0', 'style' => 'background-color:#121212']); ?>
+                            <?php echo $this->tag->submitButton([$playlist['name'], 'class' => 'nav nav-link text-primary  border-0', 'style' => 'background-color:#121212']); ?>
                             <?php echo $this->tag->hiddenField([$playlist['name'], 'name' => 'myPlaylist', 'value' => $playlist['id']]); ?>
                         </div>
                         <?php echo $this->tag->endForm(); ?>
                     <?php } ?>
+                    <!------------------------------------------------- loop ends ---------------------------------------->
+
                 </div>
             </div>
             <div class="col-1"></div>
@@ -64,6 +84,8 @@ header("Cache-Control: no cache");
                 <div class="row h3">Songs</div>
                 <div class="row border rounded p-2">
                     <div class="col-12 ps-5">
+                        <!------------------------------------------------- loop starts ---------------------------------------->
+
                         <?php foreach ($result->tracks['items'] as $track) { ?>
                             <div class="row mt-3">
                                 <div class="col-2"><img src="<?php echo $track['album']['images'][2]['url'] ?>"></div>
@@ -91,13 +113,19 @@ header("Cache-Control: no cache");
                                     </svg>
                                 </div>
                                 <div class="col-1 mt-3">
+                                    <!------------------------------------------------- form starts ---------------------------------------->
+
                                     <?php echo $this->tag->form(['playlist/addToPlaylist']); ?>
                                     <?php echo $this->tag->submitButton(['ADD', 'class' => 'nav nav-link text-white border-0', 'style' => 'background-color:#121212']); ?>
                                     <?php echo $this->tag->hiddenField([$track['name'], 'name' => 'song', 'value' => $track['uri']]); ?>
                                     <?php echo $this->tag->endForm(); ?>
+                                    <!------------------------------------------------- form ends ---------------------------------------->
+
                                 </div>
                             </div>
                         <?php } ?>
+                        <!------------------------------------------------- loop ends ---------------------------------------->
+
                     </div>
                 </div>
 

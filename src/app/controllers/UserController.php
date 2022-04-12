@@ -98,8 +98,5 @@ class UserController extends Controller
         $recommendations = $this->Mycurl->find('GET', '/recommendations?seed_artists=4NHQUGzhtTLFvgF5SZesLK');
         $this->view->user = $current_spotify_user;
         $this->view->recommendations = $recommendations;
-        echo "<pre>";
-        print_r($current);
-        // die();
     }
 }

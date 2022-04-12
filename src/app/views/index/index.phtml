@@ -28,7 +28,7 @@ header("Cache-Control: no cache");
     ?>
     <!-- -------------------------------------------Form starts--------------------------------------->
 
-    <?php echo $this->tag->form(['index/search', 'class' => 'my-4 container text-center  p-4 border']); ?>
+    <?php echo $this->tag->form(['index/search', 'class' => 'my-4 container text-center  p-4 border', 'method' => 'get']); ?>
     <p class="row">
         <label for="email" class='label col-1 mx-5 h4 text-bold text-light'></label>
         <?php echo $this->tag->textField(['query', 'class' => 'form-control col-6']) ?>
