@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body class="container mt-5 text-light" style="background-color:#000000">
+    <h1> Dashboard </h1>
+    <div class="row">
+        <div class=" bg-dark m-3" style='width: 150px;height: 150px;border-radius: 50%;'>
+            <svg xmlns="http://www.w3.org/2000/svg" width="100px" height="100px" fill="#000000" class="bi bi-person mx-4 my-4" viewBox="0 0 16 16">
+                <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
+            </svg>
+        </div>
+        <div class="col-3 mt-5">
+            <div class="row h5 mt-4">
+                Profile
+            </div>
+            <div class="row h2">
+                <?php echo $user->display_name; ?></div>
+        </div>
+        <div class="col-5"></div>
+        <div class="col-2 ">
+            <a href="http://localhost:8080/" >
+            <span class="btn btn-light"> Search</span>
+            </a>
+        </div>
+
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="row h3 my-4">Recommended Songs</div>    
+            <div class="row border rounded p-2">
+                <div class="col-12 ps-5">
+                    <?php foreach ($recommendations->tracks as $track) { ?>
+                        <div class="row mt-3">
+                            <div class="col-2"><img src="<?php echo $track['album']['images'][2]['url'] ?>"></div>
+                            <div class="col-4 m-auto"><?php echo $track['name'] ?></div>
+                            <div class="col-3 m-auto"><?php echo $track['album']['artists'][0]['name'] ?></div>
+                            <div class="col-2 m-auto"><?php
+                                                        $input = $track['duration_ms'];
+
+                                                        $uSec = $input % 1000;
+                                                        $input = floor($input / 1000);
+
+                                                        $seconds = $input % 60;
+                                                        $input = floor($input / 60);
+
+                                                        $minutes = $input % 60;
+                                                        $input = floor($input / 60);
+
+                                                        $hour = $input;
+
+                                                        echo sprintf('%2d:%02d',  $minutes, $seconds);
+
+                                                        ?>&nbsp;
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#1DB954" class="bi bi-play-circle-fill" viewBox="0 0 16 16">
+                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814l-3.5-2.5z" />
+                                </svg>
+                            </div>
+                            <div class="col-1 mt-3">
+                                <?php echo $this->tag->form(['playlist/addToPlaylist']); ?>
+                                <?php echo $this->tag->submitButton(['ADD', 'class' => 'nav nav-link text-white border-0', 'style' => 'background-color:#121212']); ?>
+                                <?php echo $this->tag->hiddenField([$track['name'], 'name' => 'song', 'value' => $track['uri']]); ?>
+                                <?php echo $this->tag->endForm(); ?>
+                            </div>
+                        </div>
+                    <?php } ?>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

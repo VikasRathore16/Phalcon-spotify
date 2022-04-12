@@ -18,7 +18,7 @@ class UserController extends Controller
                 ->andWhere("password = '$password'")
                 ->execute();
             if (count($checkemail) == 0) {
-                $this->view->msg = 'User does not exist . Please Sign Up';
+                $this->view->message = 'User does not exist . Please Sign Up';
             }
 
             if (count($user) > 0) {
@@ -29,6 +29,9 @@ class UserController extends Controller
     }
     public function logoutAction()
     {
+        $this->session->destroy('user_id');
+        $this->session->destroy('bearer');
+        $this->response->redirect('index');
     }
     public function signupAction()
     {
@@ -66,5 +69,12 @@ class UserController extends Controller
     }
     public function dashboardAction()
     {
+        $current_spotify_user = $this->Mycurl->find('GET', '/me');
+        $recommendations = $this->Mycurl->find('GET', '/recommendations?seed_artists=4NHQUGzhtTLFvgF5SZesLK');
+        $this->view->user = $current_spotify_user;
+        $this->view->recommendations = $recommendations;
+        echo "<pre>";
+        print_r($current);
+        // die();
     }
 }
