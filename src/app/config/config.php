@@ -1,4 +1,5 @@
 <?php
+
 return [
     'app' => [
         'name'     => 'Phalcon Spotify',
@@ -8,5 +9,11 @@ return [
     ],
     'url' => [
         'base_url'     => 'https://api.spotify.com/v1',
+    ],
+    'db' => [
+        'host'     => 'mysql-server',
+        'username' => 'root',
+        'password' => 'secret',
+        'dbname'   => 'spotify',
     ]
 ];

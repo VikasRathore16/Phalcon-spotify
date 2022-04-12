@@ -3,6 +3,7 @@
 // echo "<pre>"; print_r($_SERVER); die;
 // $_SERVER["REQUEST_URI"] = str_replace("/phalt/","/",$_SERVER["REQUEST_URI"]);
 // $_GET["_url"] = "/";
+use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Loader;
 use Phalcon\Mvc\View;
@@ -70,6 +71,25 @@ $container->set(
         return $config;
     }
 );
+
+
+$container->set(
+    'db',
+    function () {
+        $config = $this->get('config');
+        return new Mysql(
+            [
+                'host'     => $config->db->host,
+                'username' => $config->db->username,
+                'password' => $config->db->password,
+                'dbname'   => $config->db->dbname,
+            ]
+        );
+    }
+);
+
+
+
 $container->set(
     'session',
     function () {
@@ -99,7 +119,7 @@ $eventsManager = new EventsManager();
 
 
 $eventsManager->attach(
-    'application:beforeHandleRequest',
+    'token',
     new \App\Listeners\TokenListeners()
 );
 
@@ -110,7 +130,7 @@ $container->set(
 
 $application = new Application($container);
 
-$application->setEventsManager($eventsManager);
+// $application->setEventsManager($eventsManager);
 try {
     // Handle the request
     $response = $application->handle(
