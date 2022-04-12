@@ -10,6 +10,11 @@ use Phalcon\Escaper;
 class Myescaper
 {
     public $escaper;
+
+    /**
+     * construct function
+     * constructor
+     */
     public function __construct()
     {
         $this->escaper =  new Escaper();
